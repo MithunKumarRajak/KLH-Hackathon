@@ -22,4 +22,17 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: CORS_ALLOWED_ORIGINS
-        value: "" # ⚠️ Set your Vercel frontend URL after deployment
+        value: "https://klh-hackathon.vercel.app,http://localhost:3000"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://klh-backend.onrender.com,https://klh-hackathon.vercel.app"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: klh-db
+          property: connectionString
+
+databases:
+  - name: klh-db
+    plan: free
+    databaseName: klh_db
+    user: klh_user
+
