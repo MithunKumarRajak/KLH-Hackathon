@@ -164,7 +164,10 @@ CORS_ALLOW_HEADERS = [
 
 # Production settings
 if not DEBUG:
-    SECURE_SSL_REDIRECT = True
+    # Render handles SSL at load balancer — do NOT redirect here (causes infinite loop)
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
