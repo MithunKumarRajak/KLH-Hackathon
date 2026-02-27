@@ -158,9 +158,13 @@ JWT_EXPIRATION_HOURS = 24
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# CORS — allow React dev server AND production
-env_allowed_origins = os.environ.get("CORS_ALLOWED_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000")
-CORS_ALLOWED_ORIGINS = env_allowed_origins.split(",")
+# CORS — allow React dev server AND production Vercel frontend
+env_allowed_origins = os.environ.get(
+    "CORS_ALLOWED_ORIGINS",
+    "http://localhost:3000,http://127.0.0.1:3000,https://klh-hackathon.vercel.app"
+)
+CORS_ALLOWED_ORIGINS = [o.strip() for o in env_allowed_origins.split(",") if o.strip()]
+
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = [
     "accept", "authorization", "content-type",
@@ -170,9 +174,10 @@ CORS_ALLOW_HEADERS = [
 # CSRF — trust requests coming from Render backend and Vercel frontend
 env_csrf_origins = os.environ.get(
     "CSRF_TRUSTED_ORIGINS",
-    "https://klh-backend.onrender.com,http://localhost:3000"
+    "https://klh-backend.onrender.com,https://klh-hackathon.vercel.app,http://localhost:3000"
 )
-CSRF_TRUSTED_ORIGINS = [o.strip() for o in env_csrf_origins.split(",")]
+CSRF_TRUSTED_ORIGINS = [o.strip() for o in env_csrf_origins.split(",") if o.strip()]
+
 
 
 # Production settings
