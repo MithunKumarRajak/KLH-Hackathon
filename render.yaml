@@ -12,7 +12,7 @@ services:
       - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DJANGO_ALLOWED_HOSTS
-        value: "klh-backend.onrender.com"
+        value: "klh-backend.onrender.com,.onrender.com,localhost,127.0.0.1"
       - key: MISTRAL_API_KEY
         value: "" # ⚠️ Set your Mistral API key in Render dashboard
       - key: GOOGLE_OAUTH_CLIENT_ID
