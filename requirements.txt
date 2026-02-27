@@ -29,7 +29,7 @@ Pillow==12.1.0
 
 # Data Processing (CSV / Nutrition Dataset)
 pandas==2.2.3
-numpy==1.26.4
+numpy==2.2.3
 
 # HTTP & Utilities
 requests==2.32.5
