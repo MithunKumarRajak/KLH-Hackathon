@@ -1,0 +1,60 @@
+{% extends "labels/base.html" %}
+{% block title %}Parse Recipe{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-magic text-warning"></i> Parse Recipe from Text</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card p-4">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label fw-bold">{{ form.recipe_name.label }}</label>
+                    {{ form.recipe_name }}
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">{{ form.serving_size.label }}</label>
+                        {{ form.serving_size }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">{{ form.serving_unit.label }}</label>
+                        {{ form.serving_unit }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">{{ form.brand_name.label }}</label>
+                        {{ form.brand_name }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">{{ form.recipe_text.label }}</label>
+                    {{ form.recipe_text }}
+                    <div class="form-text">{{ form.recipe_text.help_text }}</div>
+                </div>
+                <button type="submit" class="btn btn-accent btn-lg">
+                    <i class="bi bi-magic"></i> Parse & Match Ingredients
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-4">
+            <h6><i class="bi bi-lightbulb text-warning"></i> Supported Formats</h6>
+            <ul class="small mb-3">
+                <li><code>100g wheat flour</code></li>
+                <li><code>wheat flour - 100g</code></li>
+                <li><code>2 cups rice</code></li>
+                <li><code>1 tbsp oil</code></li>
+                <li><code>salt 5g</code></li>
+                <li><code>3 tsp sugar</code></li>
+            </ul>
+            <h6><i class="bi bi-cpu text-primary"></i> AI Parsing</h6>
+            <p class="small text-muted mb-0">
+                If an OpenAI API key is configured, the parser uses GPT to intelligently
+                extract ingredients from natural language text. Otherwise, regex-based parsing is used.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: klh-backend
+    runtime: python310
+    buildCommand: "pip install -r requirements.txt && cd klh && python manage.py collectstatic --noinput"
+    startCommand: "cd klh && gunicorn nutrition_label_generator.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.10"
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_SECRET_KEY
+        value: "" # Set this in dashboard or use automatic generated
+      - key: MISTRAL_API_KEY
+        value: "" # Set your API key
+      - key: CORS_ALLOWED_ORIGINS
+        value: "" # Set frontend URL after deployment
+
+  - type: pserv
+    name: klh-db
+    ipAddress: private
+    plan: free
+    dbName: klh_db
+    user: klh_user

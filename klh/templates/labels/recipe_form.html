@@ -1,0 +1,103 @@
+{% extends "labels/base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-pencil-square text-primary"></i> {{ title }}</h2>
+
+<form method="post" novalidate>
+    {% csrf_token %}
+
+    <div class="card mb-4 p-4">
+        <h5 class="mb-3">Product Information</h5>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">{{ form.name.label }}</label>
+                {{ form.name }}
+                {% if form.name.errors %}<div class="text-danger small">{{ form.name.errors }}</div>{% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">{{ form.brand_name.label }}</label>
+                {{ form.brand_name }}
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-bold">{{ form.description.label }}</label>
+            {{ form.description }}
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label class="form-label fw-bold">{{ form.serving_size.label }}</label>
+                {{ form.serving_size }}
+            </div>
+            <div class="col-md-3 mb-3">
+                <label class="form-label fw-bold">{{ form.serving_unit.label }}</label>
+                {{ form.serving_unit }}
+            </div>
+            <div class="col-md-3 mb-3">
+                <label class="form-label fw-bold">{{ form.servings_per_pack.label }}</label>
+                {{ form.servings_per_pack }}
+            </div>
+            <div class="col-md-3 mb-3">
+                <label class="form-label fw-bold">{{ form.fssai_license.label }}</label>
+                {{ form.fssai_license }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">{{ form.manufacturer.label }}</label>
+                {{ form.manufacturer }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label fw-bold">{{ form.allergen_info.label }}</label>
+                {{ form.allergen_info }}
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4 p-4">
+        <h5 class="mb-3">Ingredients <small class="text-muted">(with weight in grams)</small></h5>
+        {{ formset.management_form }}
+
+        <div id="ingredient-forms">
+            {% for iform in formset %}
+            <div class="row mb-2 ingredient-row align-items-end">
+                <div class="col-md-6">
+                    {% if forloop.first %}
+                    <label class="form-label fw-bold">Ingredient</label>
+                    {% endif %}
+                    {{ iform.ingredient }}
+                    {% if iform.ingredient.errors %}<div class="text-danger small">{{ iform.ingredient.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-3">
+                    {% if forloop.first %}
+                    <label class="form-label fw-bold">Weight (g)</label>
+                    {% endif %}
+                    {{ iform.weight_grams }}
+                    {% if iform.weight_grams.errors %}<div class="text-danger small">{{ iform.weight_grams.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-2">
+                    {% if forloop.first %}
+                    <label class="form-label">&nbsp;</label>
+                    {% endif %}
+                    <div>{{ iform.DELETE }} <label class="form-label small text-muted">Remove</label></div>
+                </div>
+                {{ iform.id }}
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if formset.non_form_errors %}
+        <div class="text-danger small mt-2">
+            {% for error in formset.non_form_errors %}{{ error }}<br>{% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary btn-lg">
+            <i class="bi bi-check-lg"></i> Save Recipe
+        </button>
+        <a href="{% url 'recipe_list' %}" class="btn btn-outline-secondary btn-lg">Cancel</a>
+    </div>
+</form>
+{% endblock %}

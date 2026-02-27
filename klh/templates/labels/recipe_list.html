@@ -1,0 +1,56 @@
+{% extends "labels/base.html" %}
+{% block title %}Recipes{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-journal-text text-primary"></i> Recipes</h2>
+    <div class="d-flex gap-2">
+        <a href="{% url 'recipe_create' %}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New Recipe</a>
+        <a href="{% url 'recipe_parse' %}" class="btn btn-accent"><i class="bi bi-magic"></i> Parse Text</a>
+    </div>
+</div>
+
+<form method="get" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="q" class="form-control" placeholder="Search recipes..." value="{{ query }}">
+        <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
+    </div>
+</form>
+
+{% if recipes %}
+<div class="table-responsive">
+    <table class="table table-hover bg-white rounded">
+        <thead class="table-dark">
+            <tr>
+                <th>Recipe Name</th>
+                <th>Brand</th>
+                <th>Serving</th>
+                <th>Ingredients</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for recipe in recipes %}
+            <tr>
+                <td><a href="{% url 'recipe_detail' recipe.pk %}" class="fw-bold text-decoration-none">{{ recipe.name }}</a></td>
+                <td>{{ recipe.brand_name|default:"-" }}</td>
+                <td>{{ recipe.serving_size }}{{ recipe.serving_unit }}</td>
+                <td><span class="badge bg-secondary">{{ recipe.ingredient_count }}</span></td>
+                <td>{{ recipe.created_at|date:"d M Y" }}</td>
+                <td>
+                    <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-sm btn-outline-primary" title="View"><i class="bi bi-eye"></i></a>
+                    <a href="{% url 'recipe_edit' recipe.pk %}" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="bi bi-pencil"></i></a>
+                    <a href="{% url 'generate_label_pdf' recipe.pk %}" class="btn btn-sm btn-outline-success" title="Download PDF"><i class="bi bi-file-earmark-pdf"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="card p-4 text-center">
+    <p class="text-muted">No recipes found{% if query %} matching "{{ query }}"{% endif %}.</p>
+</div>
+{% endif %}
+{% endblock %}

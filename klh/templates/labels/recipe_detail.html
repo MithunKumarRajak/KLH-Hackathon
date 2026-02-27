@@ -1,0 +1,130 @@
+{% extends "labels/base.html" %}
+{% block title %}{{ recipe.name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-start mb-4">
+    <div>
+        <h2>{{ recipe.name }}</h2>
+        {% if recipe.brand_name %}<p class="text-muted mb-0">{{ recipe.brand_name }}</p>{% endif %}
+        {% if recipe.description %}<p class="small text-muted">{{ recipe.description }}</p>{% endif %}
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{% url 'recipe_edit' recipe.pk %}" class="btn btn-outline-secondary"><i class="bi bi-pencil"></i> Edit</a>
+        <a href="{% url 'generate_label_pdf' recipe.pk %}" class="btn btn-success"><i class="bi bi-file-earmark-pdf"></i> Download PDF</a>
+        <a href="{% url 'recipe_delete' recipe.pk %}" class="btn btn-outline-danger"><i class="bi bi-trash"></i></a>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Left: Details & Compliance -->
+    <div class="col-lg-7">
+        <!-- FSSAI Compliance -->
+        <div class="card mb-4 p-4">
+            <h5>
+                <i class="bi bi-shield-check"></i> FSSAI Compliance Status:
+                {% if is_compliant %}
+                <span class="badge badge-compliant"><i class="bi bi-check-circle"></i> COMPLIANT</span>
+                {% else %}
+                <span class="badge badge-noncompliant"><i class="bi bi-exclamation-triangle"></i> ISSUES FOUND</span>
+                {% endif %}
+            </h5>
+            <div class="compliance-box {% if is_compliant %}compliance-pass{% else %}compliance-fail{% endif %} mt-3">
+                <pre class="mb-0" style="white-space:pre-wrap;font-size:12px;">{{ compliance_notes }}</pre>
+            </div>
+        </div>
+
+        <!-- Front-of-Pack Indicators -->
+        {% if fop_indicators %}
+        <div class="card mb-4 p-4">
+            <h5><i class="bi bi-speedometer2"></i> Front-of-Pack Indicators (per 100g)</h5>
+            <div class="d-flex flex-wrap gap-2 mt-2">
+                {% for ind in fop_indicators %}
+                <div class="fop-badge fop-{{ ind.color }}" style="padding:8px 16px;font-size:13px;">
+                    <strong>{{ ind.nutrient }}</strong><br>
+                    {{ ind.value }}{{ ind.unit }}/100g<br>
+                    <small>{{ ind.level }}</small>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Recipe Info -->
+        <div class="card mb-4 p-4">
+            <h5><i class="bi bi-info-circle"></i> Product Details</h5>
+            <table class="table table-sm mb-0">
+                <tr><td class="fw-bold" style="width:40%">Serving Size</td><td>{{ recipe.serving_size }} {{ recipe.serving_unit }}</td></tr>
+                <tr><td class="fw-bold">Servings per Pack</td><td>{{ recipe.servings_per_pack }}</td></tr>
+                <tr><td class="fw-bold">Total Recipe Weight</td><td>{{ recipe.total_weight }}g</td></tr>
+                {% if recipe.manufacturer %}<tr><td class="fw-bold">Manufacturer</td><td>{{ recipe.manufacturer }}</td></tr>{% endif %}
+                {% if recipe.fssai_license %}<tr><td class="fw-bold">FSSAI License</td><td>{{ recipe.fssai_license }}</td></tr>{% endif %}
+                {% if recipe.allergen_info %}<tr><td class="fw-bold">Allergen Info</td><td>{{ recipe.allergen_info }}</td></tr>{% endif %}
+            </table>
+        </div>
+
+        <!-- Ingredients -->
+        <div class="card mb-4 p-4">
+            <h5><i class="bi bi-list-check"></i> Ingredients ({{ recipe.ingredients.count }})</h5>
+            <table class="table table-sm table-hover mb-0">
+                <thead><tr><th>Ingredient</th><th class="text-end">Weight (g)</th><th class="text-end">% of Total</th></tr></thead>
+                <tbody>
+                {% for ri in recipe.ingredients.all %}
+                <tr>
+                    <td><a href="{% url 'ingredient_detail' ri.ingredient.pk %}">{{ ri.ingredient.name }}</a></td>
+                    <td class="text-end">{{ ri.weight_grams }}g</td>
+                    <td class="text-end">{% widthratio ri.weight_grams recipe.total_weight 100 %}%</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot><tr class="table-secondary"><td class="fw-bold">Total</td><td class="text-end fw-bold">{{ recipe.total_weight }}g</td><td></td></tr></tfoot>
+            </table>
+        </div>
+
+        <!-- Nutrition Data Table -->
+        <div class="card mb-4 p-4">
+            <h5><i class="bi bi-table"></i> Detailed Nutrition Data</h5>
+            <div class="table-responsive">
+                <table class="table table-sm table-striped mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Nutrient</th>
+                            <th class="text-end">Per Serving ({{ recipe.serving_size }}{{ recipe.serving_unit }})</th>
+                            <th class="text-end">Per 100g</th>
+                            <th class="text-end">% Daily Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for data in nutrition_data %}
+                        <tr class="{% if data.nutrient.name in 'Saturated Fat,Trans Fat,Monounsaturated Fat,Polyunsaturated Fat,Total Sugars,Added Sugars,Dietary Fibre,Cholesterol' %}text-muted{% else %}fw-bold{% endif %}">
+                            <td>
+                                {% if data.nutrient.name in 'Saturated Fat,Trans Fat,Monounsaturated Fat,Polyunsaturated Fat,Total Sugars,Added Sugars,Dietary Fibre,Cholesterol' %}
+                                &nbsp;&nbsp;&nbsp;
+                                {% endif %}
+                                {{ data.nutrient.name }}
+                                {% if data.nutrient.is_mandatory %}<span class="badge bg-info" style="font-size:9px">FSSAI</span>{% endif %}
+                            </td>
+                            <td class="text-end">{{ data.per_serving }} {{ data.nutrient.unit }}</td>
+                            <td class="text-end">{{ data.per_100g }} {{ data.nutrient.unit }}</td>
+                            <td class="text-end">{% if data.percent_dv is not None %}{{ data.percent_dv }}%{% else %}—{% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right: Label Preview -->
+    <div class="col-lg-5">
+        <div class="card p-4 sticky-top" style="top: 20px;">
+            <h5 class="mb-3"><i class="bi bi-image"></i> Label Preview</h5>
+            {{ label_html|safe }}
+            <div class="text-center mt-3">
+                <a href="{% url 'generate_label_pdf' recipe.pk %}" class="btn btn-success btn-lg w-100">
+                    <i class="bi bi-file-earmark-pdf"></i> Download PDF Label
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

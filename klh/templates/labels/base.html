@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Nutrition Label Generator{% endblock %} | FSSAI Compliant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2C3E50;
+            --accent: #E67E22;
+            --success: #27AE60;
+            --danger: #E74C3C;
+            --warning: #F39C12;
+        }
+        body {
+            background: #F5F6FA;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        .navbar {
+            background: var(--primary) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        .navbar-brand i { color: var(--accent); }
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-2px); }
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .stat-card .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .stat-card .stat-label {
+            color: #7F8C8D;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        .btn-primary:hover {
+            background: #1A252F;
+            border-color: #1A252F;
+        }
+        .btn-accent {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+        .btn-accent:hover {
+            background: #D35400;
+            border-color: #D35400;
+            color: white;
+        }
+        .badge-compliant {
+            background: var(--success);
+            color: white;
+        }
+        .badge-noncompliant {
+            background: var(--danger);
+            color: white;
+        }
+        /* Nutrition label styling */
+        .nutrition-label {
+            max-width: 380px;
+            margin: 0 auto;
+            border: 2px solid #000;
+            padding: 12px;
+            background: white;
+            font-family: 'Arial', sans-serif;
+            font-size: 13px;
+        }
+        .nutrition-label .label-header {
+            text-align: center;
+            border-bottom: 3px solid #000;
+            padding-bottom: 6px;
+            margin-bottom: 6px;
+        }
+        .nutrition-label .label-header h2 {
+            font-size: 18px;
+            font-weight: 900;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+        .nutrition-label .brand { color: #666; font-size: 11px; margin: 2px 0; }
+        .nutrition-label .product-name { font-weight: 600; margin: 4px 0 0; }
+        .nutrition-label .serving-info {
+            font-size: 11px;
+            padding: 4px 0;
+            border-bottom: 1px solid #ccc;
+            color: #444;
+        }
+        .nutrition-label .nutrition-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 6px 0;
+        }
+        .nutrition-label .nutrition-table th {
+            background: var(--primary);
+            color: white;
+            padding: 4px 6px;
+            font-size: 11px;
+            text-align: left;
+        }
+        .nutrition-label .nutrition-table td {
+            padding: 3px 6px;
+            font-size: 11px;
+            border-bottom: 1px solid #eee;
+        }
+        .nutrition-label .nutrition-table .text-right {
+            text-align: right;
+        }
+        .nutrition-label .nutrition-table tr.main-nutrient td {
+            font-weight: 600;
+        }
+        .nutrition-label .nutrition-table tr.sub-nutrient td {
+            font-weight: 400;
+            color: #555;
+        }
+        .nutrition-label .nutrition-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .nutrition-label .dv-note {
+            font-size: 9px;
+            color: #888;
+            margin: 4px 0;
+        }
+        .nutrition-label .ingredients-section,
+        .nutrition-label .allergen-section {
+            font-size: 11px;
+            margin: 6px 0;
+            line-height: 1.4;
+        }
+        .nutrition-label .label-footer {
+            border-top: 1px solid #ccc;
+            padding-top: 4px;
+            margin-top: 6px;
+            font-size: 10px;
+            color: #666;
+        }
+        .nutrition-label .label-footer span { display: block; }
+        .fop-section { margin: 8px 0; }
+        .fop-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            color: white;
+            margin: 2px;
+        }
+        .fop-red { background: var(--danger); }
+        .fop-amber { background: var(--warning); }
+        .fop-green { background: var(--success); }
+        .compliance-box {
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .compliance-pass { background: #E8F8F0; border: 1px solid var(--success); }
+        .compliance-fail { background: #FDEDEC; border: 1px solid var(--danger); }
+        footer {
+            background: var(--primary);
+            color: #BDC3C7;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="bi bi-clipboard2-pulse"></i> NutriLabel
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}"><i class="bi bi-house"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'recipe_list' %}"><i class="bi bi-journal-text"></i> Recipes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ingredient_list' %}"><i class="bi bi-egg"></i> Ingredients</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-plus-circle"></i> Create
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'recipe_create' %}"><i class="bi bi-pencil"></i> Manual Recipe</a></li>
+                            <li><a class="dropdown-item" href="{% url 'recipe_parse' %}"><i class="bi bi-magic"></i> Parse Recipe Text</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-4">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-1"><i class="bi bi-clipboard2-pulse"></i> Automated Nutrition Label Generator</p>
+            <p class="mb-0 small">FSSAI Compliant | Built with Django & Python</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

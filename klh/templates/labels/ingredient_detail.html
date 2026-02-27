@@ -1,0 +1,47 @@
+{% extends "labels/base.html" %}
+{% block title %}{{ ingredient.name }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'ingredient_list' %}">Ingredients</a></li>
+        <li class="breadcrumb-item active">{{ ingredient.name }}</li>
+    </ol>
+</nav>
+
+<div class="card p-4 mb-4">
+    <h2>{{ ingredient.name }}</h2>
+    {% if ingredient.category %}<span class="badge bg-primary mb-2">{{ ingredient.category.name }}</span>{% endif %}
+    {% if ingredient.aliases %}<p class="text-muted small">Also known as: {{ ingredient.aliases }}</p>{% endif %}
+    {% if ingredient.description %}<p>{{ ingredient.description }}</p>{% endif %}
+</div>
+
+<div class="card p-4">
+    <h5><i class="bi bi-table"></i> Nutritional Values per 100g</h5>
+    <table class="table table-sm table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Nutrient</th>
+                <th>Category</th>
+                <th class="text-end">Value per 100g</th>
+                <th class="text-end">Unit</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for inv in nutrients %}
+        <tr>
+            <td>
+                {{ inv.nutrient.name }}
+                {% if inv.nutrient.is_mandatory %}<span class="badge bg-info" style="font-size:9px">FSSAI</span>{% endif %}
+            </td>
+            <td class="text-muted">{{ inv.nutrient.category.name }}</td>
+            <td class="text-end fw-bold">{{ inv.value_per_100g }}</td>
+            <td class="text-end">{{ inv.nutrient.unit }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" class="text-center text-muted">No nutritional data available</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

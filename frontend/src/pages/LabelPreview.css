@@ -1,0 +1,226 @@
+/* ========================================
+   LABEL PREVIEW STYLES
+   ======================================== */
+
+.label-preview-page {
+    background: var(--gray-50);
+    min-height: 100vh;
+}
+
+.label-preview-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.label-preview-container {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 32px;
+    align-items: start;
+}
+
+
+/* Nutrition Label Render */
+
+.nutrition-label-render {
+    background: var(--white);
+    border: 2px solid var(--black);
+    padding: 28px;
+    max-width: 480px;
+    font-size: 13px;
+    box-shadow: var(--shadow-lg);
+}
+
+.nl-header {
+    text-align: center;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--black);
+    margin-bottom: 8px;
+}
+
+.nl-header h2 {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.nl-brand {
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nl-product {
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.nl-serving {
+    font-size: 11px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-300);
+    color: var(--text-secondary);
+}
+
+.nl-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0;
+}
+
+.nl-table th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 6px 4px;
+    border-bottom: 2px solid var(--black);
+}
+
+.nl-table th:not(:first-child) {
+    text-align: right;
+}
+
+.nl-table td {
+    padding: 5px 4px;
+    border-bottom: 1px solid var(--gray-200);
+    font-size: 12px;
+}
+
+.nl-table td:not(:first-child) {
+    text-align: right;
+}
+
+.nl-bold td {
+    font-weight: 700;
+}
+
+.nl-sub td {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.nl-dv-note {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 12px;
+}
+
+.nl-section {
+    font-size: 11px;
+    line-height: 1.6;
+    padding: 8px 0;
+    border-top: 1px solid var(--gray-200);
+}
+
+.nl-fop {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 0;
+    border-top: 1px solid var(--gray-200);
+}
+
+.nl-fop-badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border: 1px solid;
+}
+
+.nl-fop-badge.high {
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+.nl-fop-badge.medium {
+    color: var(--warning);
+    border-color: var(--warning);
+}
+
+.nl-fop-badge.low {
+    color: var(--success);
+    border-color: var(--success);
+}
+
+.nl-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--text-muted);
+    padding-top: 8px;
+    border-top: 2px solid var(--black);
+}
+
+
+/* Info Sidebar */
+
+.label-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.label-info-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    padding: 24px;
+}
+
+.label-info-card h4 {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-100);
+    font-size: 13px;
+}
+
+.info-row span:first-child {
+    color: var(--text-muted);
+}
+
+.info-row span:last-child {
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .label-preview-container {
+        grid-template-columns: 1fr;
+    }
+    .nutrition-label-render {
+        max-width: 100%;
+    }
+}
+
+@media print {
+    .label-preview-page>*>*:not(.label-preview-container) {
+        display: none;
+    }
+    .label-info {
+        display: none;
+    }
+    .nutrition-label-render {
+        box-shadow: none;
+        border-width: 1px;
+    }
+}

@@ -1,0 +1,383 @@
+/* ========================================
+   INGREDIENT LIST PAGE STYLES
+   ======================================== */
+
+.ingredient-list-page {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.ingredient-list-header {
+    background: transparent;
+    padding: 120px 0 60px;
+}
+
+.il-header-label {
+    color: var(--text-secondary);
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.il-header-title {
+    color: var(--black);
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+    line-height: 1.15;
+}
+
+.il-header-subtitle {
+    color: var(--text-secondary);
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.6;
+    max-width: 600px;
+}
+
+
+/* Filter Row */
+
+.il-filter-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+    align-items: stretch;
+}
+
+.il-filter-row .ingredient-search-bar {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.ingredient-search-bar {
+    position: relative;
+}
+
+.ingredient-search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-400);
+}
+
+.ingredient-search-bar input {
+    width: 100%;
+    padding: 14px 16px 14px 48px;
+    border: 1px solid var(--border-color);
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    transition: border-color var(--transition-base);
+    height: 100%;
+    border-radius: 6px;
+}
+
+.ingredient-search-bar input:focus {
+    outline: none;
+    border-color: var(--black);
+}
+
+
+/* Category Dropdown */
+
+.cat-dropdown-wrap {
+    position: relative;
+    min-width: 240px;
+}
+
+.cat-dropdown-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    height: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--border-color);
+    background: var(--white);
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: border-color var(--transition-base);
+    text-align: left;
+    border-radius: 6px;
+}
+
+.cat-dropdown-btn:hover {
+    border-color: var(--black);
+}
+
+.cat-dropdown-btn.has-value {
+    border-color: var(--black);
+    font-weight: 600;
+}
+
+.cat-clear {
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.cat-clear:hover {
+    color: var(--danger);
+}
+
+.cat-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 30;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    max-height: 340px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.cat-dropdown-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-muted);
+}
+
+.cat-dropdown-search input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 13px;
+    color: var(--text-primary);
+}
+
+.cat-dropdown-list {
+    overflow-y: auto;
+    max-height: 280px;
+}
+
+.cat-dropdown-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.cat-dropdown-item:hover {
+    background: var(--gray-50);
+}
+
+.cat-dropdown-item.active {
+    background: var(--black);
+    color: var(--white);
+    font-weight: 600;
+}
+
+.cat-dropdown-empty {
+    padding: 16px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+
+/* Table */
+
+.ingredient-table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--white);
+    max-width: 100%;
+}
+
+.ingredient-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    table-layout: fixed;
+    min-width: 800px;
+    /* Ensure table doesn't squash too much */
+}
+
+.ingredient-table thead {
+    background: #000000;
+}
+
+.ingredient-table th {
+    padding: 13px 16px;
+    text-align: left;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--white);
+    border-bottom: 2px solid var(--black);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* Ingredient column — offset by icon(32px) + gap(10px) so text aligns under header */
+
+.ingredient-table th:first-child {
+    padding-left: 58px;
+}
+
+.ingredient-table th:nth-child(n+3) {
+    text-align: right;
+}
+
+.ingredient-table td {
+    display: table-cell;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--gray-100);
+    color: var(--text-primary);
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    vertical-align: middle;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.ingredient-row {
+    display: table-row;
+    transition: background var(--transition-base);
+}
+
+.ingredient-row:hover {
+    background: var(--gray-50);
+}
+
+.ingredient-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    width: 100%;
+    min-width: 0;
+    color: var(--gray-900);
+    font-size: 14px;
+    overflow: hidden;
+}
+
+
+/* Align header text with the name text (after icon + gap) */
+
+.ingredient-table th:first-child {
+    padding-left: 58px;
+}
+
+.ingredient-name-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ingredient-icon-sm {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    flex-shrink: 0;
+    background: var(--gray-50);
+}
+
+.category-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    background: var(--gray-100);
+    color: var(--text-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    vertical-align: middle;
+}
+
+.nutrient-val {
+    font-variant-numeric: tabular-nums;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--gray-800);
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px !important;
+    color: var(--text-secondary);
+    font-size: 15px;
+}
+
+
+/* Footer */
+
+.il-table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+
+.ingredient-count {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .il-filter-row {
+        flex-direction: column;
+    }
+    .cat-dropdown-wrap {
+        min-width: 100%;
+    }
+    .ingredient-table th,
+    .ingredient-table td {
+        padding: 10px 12px;
+    }
+    .ingredient-table {
+        table-layout: auto;
+    }
+}

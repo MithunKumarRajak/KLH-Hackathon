@@ -1,0 +1,102 @@
+{% extends "labels/base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1 class="mb-1"><i class="bi bi-clipboard2-pulse text-warning"></i> Nutrition Label Generator</h1>
+        <p class="text-muted">Automated FSSAI-compliant nutrition label generation for food products</p>
+    </div>
+    <div class="col-md-4 text-end d-flex align-items-center justify-content-end gap-2">
+        <a href="{% url 'recipe_create' %}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New Recipe</a>
+        <a href="{% url 'recipe_parse' %}" class="btn btn-accent"><i class="bi bi-magic"></i> Parse Text</a>
+    </div>
+</div>
+
+<!-- Stats -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card stat-card">
+            <div class="stat-number">{{ total_ingredients }}</div>
+            <div class="stat-label"><i class="bi bi-egg"></i> Ingredients in Database</div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card stat-card">
+            <div class="stat-number">{{ total_recipes }}</div>
+            <div class="stat-label"><i class="bi bi-journal-text"></i> Recipes</div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card stat-card">
+            <div class="stat-number">{{ total_labels }}</div>
+            <div class="stat-label"><i class="bi bi-file-earmark-pdf"></i> Labels Generated</div>
+        </div>
+    </div>
+</div>
+
+<!-- How it works -->
+<div class="card mb-4 p-4">
+    <h4><i class="bi bi-info-circle text-primary"></i> How It Works</h4>
+    <div class="row mt-3">
+        <div class="col-md-3 text-center mb-3">
+            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center" style="width:50px;height:50px;font-size:1.3rem;"><b>1</b></div>
+            <p class="mt-2 mb-0 fw-bold">Add Recipe</p>
+            <small class="text-muted">Enter ingredients & weights</small>
+        </div>
+        <div class="col-md-3 text-center mb-3">
+            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center" style="width:50px;height:50px;font-size:1.3rem;"><b>2</b></div>
+            <p class="mt-2 mb-0 fw-bold">Auto Calculate</p>
+            <small class="text-muted">Maps to nutritional database</small>
+        </div>
+        <div class="col-md-3 text-center mb-3">
+            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center" style="width:50px;height:50px;font-size:1.3rem;"><b>3</b></div>
+            <p class="mt-2 mb-0 fw-bold">FSSAI Check</p>
+            <small class="text-muted">Validates compliance</small>
+        </div>
+        <div class="col-md-3 text-center mb-3">
+            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center" style="width:50px;height:50px;font-size:1.3rem;"><b>4</b></div>
+            <p class="mt-2 mb-0 fw-bold">Export Label</p>
+            <small class="text-muted">Download PDF label</small>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Recipes -->
+<h4 class="mb-3"><i class="bi bi-clock-history text-muted"></i> Recent Recipes</h4>
+{% if recipes %}
+<div class="row">
+    {% for recipe in recipes %}
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ recipe.name }}</h5>
+                {% if recipe.brand_name %}
+                <p class="text-muted small mb-1">{{ recipe.brand_name }}</p>
+                {% endif %}
+                <p class="mb-2">
+                    <span class="badge bg-secondary">{{ recipe.ingredient_count }} ingredients</span>
+                    <span class="badge bg-info">{{ recipe.serving_size }}{{ recipe.serving_unit }}</span>
+                </p>
+                {% if recipe.description %}
+                <p class="card-text small text-muted">{{ recipe.description|truncatewords:15 }}</p>
+                {% endif %}
+            </div>
+            <div class="card-footer bg-white border-0">
+                <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-eye"></i> View & Generate Label
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card p-4 text-center">
+    <p class="text-muted mb-3">No recipes yet. Create your first recipe to generate a nutrition label!</p>
+    <div>
+        <a href="{% url 'recipe_create' %}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Create Recipe</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

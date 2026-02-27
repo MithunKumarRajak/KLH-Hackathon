@@ -1,0 +1,128 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 20px 0;
+    transition: all var(--transition-base);
+}
+
+.navbar.scrolled,
+.navbar.light {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    padding: 12px 0;
+    box-shadow: 0 1px 0 var(--border-color);
+}
+
+.navbar.dark:not(.scrolled) .navbar-brand,
+.navbar.dark:not(.scrolled) .navbar-links a,
+.navbar.dark:not(.scrolled) .navbar-toggle {
+    color: var(--white);
+}
+
+.navbar.dark.scrolled .navbar-brand,
+.navbar.dark.scrolled .navbar-links a {
+    color: var(--black);
+}
+
+.navbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+}
+
+.navbar-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: opacity var(--transition-fast);
+    position: relative;
+}
+
+.navbar-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    transition: width var(--transition-base);
+}
+
+.navbar-links a:hover::after,
+.navbar-links a.active::after {
+    width: 100%;
+}
+
+.navbar-links a:hover {
+    opacity: 0.7;
+}
+
+.nav-cta {
+    margin-left: 12px;
+}
+
+.navbar.dark:not(.scrolled) .nav-cta {
+    border-color: var(--white);
+    color: var(--white);
+}
+
+.navbar.dark:not(.scrolled) .nav-cta:hover {
+    background: var(--white);
+    color: var(--black);
+}
+
+.navbar-toggle {
+    display: none;
+    color: var(--black);
+}
+
+@media (max-width: 768px) {
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 300px;
+        height: 100vh;
+        background: var(--white);
+        flex-direction: column;
+        justify-content: center;
+        gap: 32px;
+        transition: right var(--transition-base);
+        box-shadow: var(--shadow-xl);
+    }
+    .navbar-links.open {
+        right: 0;
+    }
+    .navbar-links a {
+        color: var(--black) !important;
+        font-size: 16px;
+    }
+    .nav-cta {
+        margin-left: 0;
+    }
+}

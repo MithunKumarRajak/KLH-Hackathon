@@ -1,0 +1,56 @@
+{% extends "labels/base.html" %}
+{% block title %}Ingredient Database{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-egg text-primary"></i> Ingredient Database</h2>
+    <span class="badge bg-primary" style="font-size:14px">{{ ingredients|length }} ingredients</span>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-8">
+        <form method="get" class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Search ingredients..." value="{{ query }}">
+            {% if selected_category %}<input type="hidden" name="category" value="{{ selected_category }}">{% endif %}
+            <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <form method="get">
+            {% if query %}<input type="hidden" name="q" value="{{ query }}">{% endif %}
+            <select name="category" class="form-select" onchange="this.form.submit()">
+                <option value="">All Categories</option>
+                {% for cat in categories %}
+                <option value="{{ cat.id }}" {% if selected_category == cat.id|stringformat:"d" %}selected{% endif %}>{{ cat.name }} ({{ cat.count }})</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    {% for ingredient in ingredients %}
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h6 class="card-title mb-1">
+                    <a href="{% url 'ingredient_detail' ingredient.pk %}" class="text-decoration-none">{{ ingredient.name }}</a>
+                </h6>
+                {% if ingredient.category %}
+                <span class="badge bg-light text-dark mb-2">{{ ingredient.category.name }}</span>
+                {% endif %}
+                {% if ingredient.aliases %}
+                <p class="small text-muted mb-0">aka: {{ ingredient.aliases|truncatewords:8 }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="card p-4 text-center">
+            <p class="text-muted">No ingredients found{% if query %} matching "{{ query }}"{% endif %}.</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
