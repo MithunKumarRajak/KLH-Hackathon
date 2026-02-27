@@ -22,10 +22,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # This must be set in environment variables - no hardcoded defaults for security
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "change-me-in-production" if os.environ.get("DJANGO_DEBUG") != "False" else None,
-)
+# SECRET_KEY must always be a non-None string. In production, set DJANGO_SECRET_KEY env var.
+_secret_key = os.environ.get("DJANGO_SECRET_KEY")
+if not _secret_key:
+    if os.environ.get("DJANGO_DEBUG", "True").lower() in ("true", "1", "yes"):
+        _secret_key = "django-insecure-local-dev-key-not-for-production"
+    else:
+        raise ValueError("DJANGO_SECRET_KEY environment variable must be set in production!")
+SECRET_KEY = _secret_key
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() in ("true", "1", "yes")
