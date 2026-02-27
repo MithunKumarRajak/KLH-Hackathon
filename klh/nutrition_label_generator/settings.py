@@ -162,6 +162,14 @@ CORS_ALLOW_HEADERS = [
     "origin", "x-requested-with",
 ]
 
+# CSRF — trust requests coming from Render backend and Vercel frontend
+env_csrf_origins = os.environ.get(
+    "CSRF_TRUSTED_ORIGINS",
+    "https://klh-backend.onrender.com,http://localhost:3000"
+)
+CSRF_TRUSTED_ORIGINS = [o.strip() for o in env_csrf_origins.split(",")]
+
+
 # Production settings
 if not DEBUG:
     # Render handles SSL at load balancer — do NOT redirect here (causes infinite loop)
