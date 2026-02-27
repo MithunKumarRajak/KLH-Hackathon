@@ -21,9 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# This must be set in environment variables - no hardcoded defaults for security
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
-    "django-insecure-nmr*ceqzkk+4wf0ss0p((#ewp6lx(17j4mh)v386^@&7tolq%_",
+    "change-me-in-production" if os.environ.get("DJANGO_DEBUG") != "False" else None,
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -134,17 +135,11 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # LLM API (Mistral AI — sole provider)
-MISTRAL_API_KEY = os.environ.get("MISTRAL_API_KEY", "sZOxjwaib0kNUNGDLUepLy72jaK9ABmR")
+MISTRAL_API_KEY = os.environ.get("MISTRAL_API_KEY")
 
 # Google OAuth
-GOOGLE_OAUTH_CLIENT_ID = os.environ.get(
-    "GOOGLE_OAUTH_CLIENT_ID",
-    "459045727007-v51uv7m1fsjgh68ubmhep9k2a5l60q9t.apps.googleusercontent.com"
-)
-GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get(
-    "GOOGLE_OAUTH_CLIENT_SECRET",
-    "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"
-)
+GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID")
+GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET")
 
 # JWT Auth
 JWT_SECRET = os.environ.get("JWT_SECRET", SECRET_KEY)
