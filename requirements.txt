@@ -36,8 +36,9 @@ requests==2.32.5
 python-dotenv==1.0.1
 gunicorn==23.0.0
 
-# Database - PostgreSQL
-psycopg2-binary==2.9.9
+# Database - PostgreSQL (psycopg3 supports Python 3.14+, psycopg2 as fallback)
+psycopg[binary]==3.2.5
+psycopg2-binary
 dj-database-url==2.1.0
 
 # Security

@@ -89,7 +89,21 @@ import dj_database_url
 
 # Use PostgreSQL on production, SQLite for local development
 if os.environ.get("DATABASE_URL"):
-    DATABASES = {"default": dj_database_url.config(default=os.environ.get("DATABASE_URL"), conn_max_age=600)}
+    # dj-database-url auto-detects psycopg3 or psycopg2 based on what's installed
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=os.environ.get("DATABASE_URL"),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+    # Force psycopg3 engine if available (supports Python 3.14+)
+    try:
+        import psycopg  # noqa
+        DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"
+        DATABASES["default"].setdefault("OPTIONS", {})
+    except ImportError:
+        pass
 else:
     DATABASES = {
         "default": {
@@ -97,6 +111,7 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
+
 
 
 # Password validation
