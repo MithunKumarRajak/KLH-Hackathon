@@ -143,12 +143,30 @@ render.yaml                     # Render deployment config
 
 ---
 
+## Event
+
+**HackWithAI — Telangana's Largest 24-Hour Offline AI Hackathon**
+
+| Detail | Info |
+|---|---|
+| **Event** | HackWithAI 2026 |
+| **Format** | 24-Hour Overnight Offline Hackathon |
+| **Date** | 27th Feb – 28th Feb, 2026 |
+| **Venue** | KLH University, Bowrampet, Hyderabad |
+
+---
+
 ## Team
 
-**KLH Hackathon 2026**
+| Name | Role |
+|---|---|
+| **Manish Kumar Srivastav** | Team Leader |
+| **Shivam Jitendra Indore** | Team Member |
+| **Aakash Prakash Sarang** | Team Member |
+| **Mithun Kumar Rajak** | Team Member |
 
 ---
 
 ## License
 
-Built for KLH Hackathon 2026. All rights reserved.
+Built for HackWithAI 2026 at KLH University, Hyderabad. All rights reserved.
