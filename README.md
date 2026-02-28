@@ -1,8 +1,8 @@
 # Satvika — AI-Powered Nutrition Label Generator
 
-> From ancient Satvik wisdom to scientific compliance — Satvika transforms how food brands create, validate, and export nutrition labels with FSSAI-ready precision.
+>>> From ancient Satvik wisdom to scientific compliance — Satvika transforms how food brands create, validate, and export nutrition labels with FSSAI-ready precision.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)](https://klh-hackathon.vercel.app)
+>[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)](https://klh-hackathon.vercel.app)
 [![Backend API](https://img.shields.io/badge/API-Render-blue?style=for-the-badge)](https://klh-backend.onrender.com)
 
 ---
