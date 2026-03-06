@@ -167,6 +167,13 @@ render.yaml                     # Render deployment config
 
 ---
 
+
+## Result
+
+## We Secure Top 10 team out of 600+ teams
+
+---
+
 ## License
 
 Built for HackWithAI 2026 at KLH University, Hyderabad. All rights reserved.
