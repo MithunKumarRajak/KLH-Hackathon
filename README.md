@@ -170,7 +170,7 @@ render.yaml                     # Render deployment config
 
 ## Result
 
-## We Secure Top 10 team out of 600+ teams
+## Our team Secure Top 10 team out of 650+ teams
 
 ---
 
